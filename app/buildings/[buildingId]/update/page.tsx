@@ -2,13 +2,21 @@
 import {Button} from "@nextui-org/react";
 import React, {useEffect, useState} from "react";
 import {PlusIcon} from "@/app/components/icons/PlusIcon";
-import {createBuilding} from "@/app/lib/action";
+import {createBuilding, updateBuilding} from "@/app/lib/action";
 import {doc, getDoc} from "firebase/firestore";
 import {db} from "@/app/lib/firebase";
 import BuildingModel from "@/app/lib/BuildingModel";
-import {getDownloadURL, ref} from "firebase/storage";
+import {getDownloadURL, getStorage, ref} from "firebase/storage";
+import Image from "next/image";
 
-export default function BuildingCreate() {
+export default function BuildingCreate({params}: { params: { buildingId: string } }) {
+    const storage = getStorage();
+    const [photoRef, setPhotoRef] = useState("");
+    const [mapRef, setMapRef] = useState("")
+    const [name, setName] = useState("")
+    const [donor, setDonor] = useState("")
+    const [id_en, setId_en] = useState(0)
+    const id = params.buildingId;
 
     useEffect(() => {
         const fetchBuilding = async () => {
@@ -25,11 +33,14 @@ export default function BuildingCreate() {
                 }
                 try{
                     let map = await getDownloadURL(ref(storage, `maps/map${buildingData.id_en}.png`));
+
                     setMapRef(map);
                 }catch{
                     return{message:"Failed to download map"}
                 }
-                setBuilding(buildingData);
+                setName(buildingData.name);
+                setDonor(buildingData.donor);
+                setId_en(buildingData.id_en)
             }catch{
                 return{message:"Failed to get data"}
             }
@@ -38,31 +49,52 @@ export default function BuildingCreate() {
     }, [])
     return (
         <div className="h-screen w-screen overflow-hidden">
-            <form action={createBuilding} className="bg-white w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
+            <form action={updateBuilding} className="bg-white w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
                 <h1 className={"text-center "}>Form update</h1>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>Name :</label>
-                    <input type={"text"} name={"name"} className={"border-1 border-gray-300 rounded-md w-full p-2"}  required/>
+                    <input type={"text"} value={name} name={"name"} onChange={(event) => setName(event.target.value)}
+                           className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
                 </div>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>Donor :</label>
-                    <input type={"text"} name={"donor"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
+                    <textarea value={donor} onChange={(event) => setDonor(event.target.value)} name={"donor"}
+                              className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
                 </div>
                 <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>Photo :</label>
-                    <input type={"file"} name={"photo"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
+                    <label className={"w-3/12"}>Photo : </label>
+                    <input type={"file"} name={"photo"} className={"border-1 border-gray-300 rounded-md w-full p-2"}
+                    />
                 </div>
                 <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>Map :</label>
-                    <input type={"file"} name={"map"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
+                    <label className={"w-3/12"}>Map : </label>
+                    <input type={"file"} name={"map"} className={"border-1 border-gray-300 rounded-md w-full p-2"}
+                    />
                 </div>
+                <input type="hidden" value={id} name={"id"}/>
+                <input type="hidden" value={id_en} name={"id_en"}/>
                 <div className={"w-full"}>
-                    <Button className="bg-amber-500 text-white w-full mt-10" size={"lg"} variant={"shadow"} type={"submit"}
+                    <Button className="bg-amber-500 text-white w-full mt-10" size={"lg"} variant={"shadow"}
+                            type={"submit"}
                             endContent={<PlusIcon/>}>
-                        မဖျက်ပါ
+                        Update
                     </Button>
                 </div>
             </form>
+            {/*<div className={"flex gap-5 w-full justify-center mt-20"}>*/}
+            {/*    {photoRef === "" ?*/}
+            {/*        <></>*/}
+            {/*        :*/}
+            {/*        <div className={"w-5/12"}><Image src={photoRef} alt={"Building Image"} width={500}*/}
+            {/*                                         height={500}/></div>*/}
+
+            {/*    }*/}
+            {/*    {mapRef === "" ?*/}
+            {/*        <></> :*/}
+            {/*        <div className={"w-5/12"}><Image src={mapRef} alt={"Building Map"} width={500} height={500}/>*/}
+            {/*        </div>}*/}
+
+            {/*</div>*/}
         </div>
     )
 }

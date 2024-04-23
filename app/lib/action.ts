@@ -83,3 +83,59 @@ export async function deleteBuilding(id:string,id_en:number) {
     revalidatePath("/")
     redirect('/')
 }
+
+export async function updateBuilding(formData:FormData) {
+
+    let id_en = formData.get("id_en");
+    let id = formData.get("id");
+    let myanmarId = myanmarNumbers(id_en,"my");
+    let newNumber = `အမှတ် - (${myanmarId})`;
+    // @ts-ignore
+    const building: BuildingModel = {
+        id:id,
+        donor: formData.get("donor"), name: formData.get("name"),
+        id_en: id_en,
+        id_mm: myanmarId,
+        number : newNumber
+    }
+    try {
+        // @ts-ignore
+        const buildingRef = doc(db, 'buildings', id);
+        await setDoc(buildingRef,building)
+    }catch(error){
+        return { message: 'Database Error: Failed to update building' };
+    }
+
+    let photo = formData.get("photo") as File;
+    if(photo.size){
+        const photoMetaData = {
+            contentType: 'image/jpeg',
+        };
+        const photoRef = ref(storage,`photos/photo${id_en}.jpeg`)
+        // @ts-ignore
+        const photoBuffer = Buffer.from(await formData.get("photo").arrayBuffer());
+        try {
+            await uploadBytes(photoRef, photoBuffer,photoMetaData);
+        }catch{
+            return { message: 'Database Error: Failed to update Photo' };
+        }
+
+    }
+
+    let map = formData.get("map") as File;
+    if(map.size){
+        const mapMetaData = {
+            contentType: 'image/png',
+        };
+        const mapRef = ref(storage,`maps/map${id_en}.png`)
+        // @ts-ignore
+        const mapBuffer = Buffer.from(await formData.get("map").arrayBuffer());
+        try {
+            await uploadBytes(mapRef, mapBuffer,mapMetaData);
+        }catch{
+            return { message: 'Database Error: Failed to update Map' };
+        }
+    }
+
+    redirect(`../../buildings/${id}`)
+}

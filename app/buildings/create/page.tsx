@@ -15,7 +15,7 @@ export default function BuildingCreate() {
                 </div>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>Donor :</label>
-                    <input type={"text"} name={"donor"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
+                    <textarea name={"donor"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
                 </div>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>Photo :</label>

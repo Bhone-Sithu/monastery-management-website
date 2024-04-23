@@ -12,6 +12,7 @@ import clsx from "clsx";
 import {ErrorBoundary} from "next/dist/client/components/error-boundary";
 import Error from "./error"
 import {deleteBuilding} from "@/app/lib/action";
+import Link from 'next/link';
 export default function BuildingDetail({params}: { params: { buildingId: string } }) {
     const storage = getStorage();
     const [photoRef, setPhotoRef] = useState("");
@@ -107,10 +108,12 @@ export default function BuildingDetail({params}: { params: { buildingId: string 
 
                 </div>
                 <div className={"flex gap-5 w-full justify-center mt-10"}>
-                    <Button className="bg-amber-500 text-white" size={"lg"} variant={"shadow"}
-                            endContent={<VerticalDotsIcon/>}>
-                        ပြင်ဆင်မည်
-                    </Button>
+                    <Link href={`${id}/update`}>
+                        <Button className="bg-amber-500 text-white" size={"lg"} variant={"shadow"}
+                                endContent={<VerticalDotsIcon/>}>
+                            ပြင်ဆင်မည်
+                        </Button>
+                    </Link>
                     <Button className="bg-red-400 text-white" onClick={() => setPopUp(true)} size={"lg"}
                             variant={"shadow"} endContent={<DeleteIcon/>}>
                         ဖျက်မည်
