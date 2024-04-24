@@ -1,13 +1,48 @@
+"use client"
+import {Button} from "@nextui-org/react";
+import React, {useEffect, useState} from "react";
+import {PlusIcon} from "@/app/components/icons/PlusIcon";
+import {LockFilledIcon} from "@nextui-org/shared-icons";
+import {redirect} from "next/navigation";
 
-import BuildingTable from "@/app/components/BuildingTable";
-import React from "react";
-
-
-export default function Home() {
-  return (
-    <div className="w-9/12 h-full mx-auto py-10">
-      <BuildingTable/>
-
-    </div>
-  );
+export default function BuildingCreate() {
+    const [errorMsg, setErrorMsg] = useState("");
+    const logIn = (formData:FormData) => {
+        let email = formData.get("email");
+        let password = formData.get("password");
+        if(email == "paauktawya.main@gmail.com" && password == "singapore"){
+            localStorage.setItem("isLoggedIn","true");
+            redirect("buildings/")
+        }
+        else{
+            setErrorMsg("Email or Password is incorrect. Please try again.");
+        }
+    }
+    useEffect(()=>{
+        if(localStorage.getItem("isLoggedIn")){
+            redirect("/buildings")
+        }
+    },[])
+    return (
+        <div className="h-screen w-screen overflow-hidden">
+            <form action={logIn} className="bg-white w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
+                <h1 className={"text-center "}>Log In</h1>
+                <div className="mt-10 flex gap-5 w-full items-center">
+                    <label className={"w-3/12"}>Email :</label>
+                    <input type={"email"} name={"email"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
+                </div>
+                <div className="mt-10 flex gap-5 w-full items-center">
+                    <label className={"w-3/12"}>Password :</label>
+                    <input type={"password"} name={"password"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
+                </div>
+                {errorMsg ? <p className={"text-center text-red-400 mt-5 animate-bounce"}>{errorMsg}</p> : null}
+                <div className={"w-full flex justify-center"}>
+                    <Button className="bg-amber-500 text-white mx-auto mt-5" size={"lg"} variant={"shadow"} type={"submit"}
+                            endContent={<LockFilledIcon/>}>
+                        Login
+                    </Button>
+                </div>
+            </form>
+        </div>
+    )
 }

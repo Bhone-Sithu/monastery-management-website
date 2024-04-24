@@ -7,13 +7,15 @@ import Image from "next/image";
 import {getDownloadURL, getStorage, ref} from "firebase/storage";
 import {Button, Spinner} from "@nextui-org/react";
 import {VerticalDotsIcon} from "@/app/components/icons/VerticalDotsIcon";
-import {DeleteIcon} from "@nextui-org/shared-icons";
+import {ClockCircleLinearIcon, DeleteIcon} from "@nextui-org/shared-icons";
 import clsx from "clsx";
 import {ErrorBoundary} from "next/dist/client/components/error-boundary";
 import Error from "./error"
 import {deleteBuilding} from "@/app/lib/action";
 import Link from 'next/link';
+import {redirect} from "next/navigation";
 export default function BuildingDetail({params}: { params: { buildingId: string } }) {
+
     const storage = getStorage();
     const [photoRef, setPhotoRef] = useState("");
     const [mapRef, setMapRef] = useState("")
@@ -29,6 +31,9 @@ export default function BuildingDetail({params}: { params: { buildingId: string 
         donor: ""
     });
     useEffect(() => {
+        if(localStorage.getItem("isLoggedIn")== undefined) {
+            redirect("/");
+        }
         const fetchBuilding = async () => {
                 try{
                     const docRef = doc(db, "buildings", id);
@@ -80,14 +85,11 @@ export default function BuildingDetail({params}: { params: { buildingId: string 
     // @ts-ignore
     return (
 
-        <div className={"h-full w-full overflow-hidden rounded-lg"}>
+        <div className={"h-full w-full rounded-lg "}>
             {/*{popUp? <PopUp/> : <></>}*/}
             <PopUp/>
-            <div className={"p-10 mx-60 mt-10 mb-20 bg-white rounded-xl  shadow-xl text-center"}>
-                {photoRef === "" ?
-                    <Spinner>အချက်အလက်များရယူနေသည်</Spinner>
-                    : <></>
-                }
+            <div className={"p-10 mx-60 mt-10 mb-20 bg-white rounded-xl  shadow-xl text-center "}>
+
                 <div className={"flex flex-col gap-5"}>
                     <h1 className={"text-2xl"}>{building.name}</h1>
                     <h2 className={"opacity-50"}>{building.number}</h2>
@@ -107,18 +109,32 @@ export default function BuildingDetail({params}: { params: { buildingId: string 
                         </div>}
 
                 </div>
-                <div className={"flex gap-5 w-full justify-center mt-10"}>
-                    <Link href={`${id}/update`}>
-                        <Button className="bg-amber-500 text-white" size={"lg"} variant={"shadow"}
-                                endContent={<VerticalDotsIcon/>}>
-                            ပြင်ဆင်မည်
+                {photoRef === "" ?
+                    <Spinner color={"warning"}>
+                        အချက်အလက်များရယူနေသည်။
+                        ကြာနေပါက Refresh ကိုနှိပ်ပါ
+                        <br/>
+                        <Link href={"/buildings/"+id}>
+                            <Button className="bg-amber-500 text-white mt-10 animate-bounce" size={"md"} variant={"shadow"} type={"submit"}
+                                    endContent={<ClockCircleLinearIcon/>}>
+                                Refresh
+                            </Button>
+                        </Link>
+                    </Spinner>
+                    : <div className={"flex gap-5 w-full justify-center mt-10"}>
+                        <Link href={`${id}/update`}>
+                            <Button className="bg-amber-500 text-white" size={"lg"} variant={"shadow"}
+                                    endContent={<VerticalDotsIcon/>}>
+                                ပြင်ဆင်မည်
+                            </Button>
+                        </Link>
+                        <Button className="bg-red-400 text-white" onClick={() => setPopUp(true)} size={"lg"}
+                                variant={"shadow"} endContent={<DeleteIcon/>}>
+                            ဖျက်မည်
                         </Button>
-                    </Link>
-                    <Button className="bg-red-400 text-white" onClick={() => setPopUp(true)} size={"lg"}
-                            variant={"shadow"} endContent={<DeleteIcon/>}>
-                        ဖျက်မည်
-                    </Button>
-                </div>
+                    </div>
+                }
+
 
             </div>
 

@@ -19,12 +19,15 @@
 html{
   height: 100vh;
   width: 100%;
-
+  overflow: hidden;
+  background-color: #efffc8;
 
 }
 body {
   width: 100%;
+  height: 100%;
   background-color: #efffc8;
+  overflow: scroll;
   /*background: linear-gradient(*/
   /*    to bottom,*/
   /*    transparent,*/

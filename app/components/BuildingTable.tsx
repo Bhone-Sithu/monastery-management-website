@@ -17,7 +17,7 @@ import {
     Pagination,
     Selection,
     ChipProps,
-    SortDescriptor
+    SortDescriptor, Spinner
 } from "@nextui-org/react";
 import {SearchIcon} from "@/app/components/icons/SearchIcon";
 import {ChevronDownIcon} from "@/app/components/icons/ChevronDownIcon";
@@ -42,6 +42,8 @@ const columns = [
 import Building from "@/app/lib/BuildingModel";
 import {VerticalDotsIcon} from "@/app/components/icons/VerticalDotsIcon";
 import Link from "next/link";
+import {ChevronCircleTopLinearIcon, ClockCircleLinearIcon, LockFilledIcon} from "@nextui-org/shared-icons";
+import {redirect} from "next/navigation";
 
 export default function BuildingTable() {
     const [buildings, setBuilding] = useState<Building[]>([]);
@@ -244,11 +246,19 @@ export default function BuildingTable() {
                         {/*        ))}*/}
                         {/*    </DropdownMenu>*/}
                         {/*</Dropdown>*/}
+
                         <Link href={"buildings/create"} target={"_blank"}>
 
                             <Button className="bg-amber-500 text-white" variant={"shadow"} size={"md"} endContent={<PlusIcon />}>
                                 အဆောင်အသစ်ထည့်မည်
                             </Button>
+                        </Link>
+                        <Link href={"/"}>
+                        <Button className="bg-red-400 text-white" variant={"shadow"} size={"md"} endContent={<LockFilledIcon />} onClick={()=>{
+                            localStorage.removeItem("isLoggedIn");
+                        }}>
+                            Log Out
+                        </Button>
                         </Link>
                     </div>
                 </div>
@@ -334,7 +344,17 @@ export default function BuildingTable() {
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody emptyContent={"No buildings found"} items={sortedItems}>
+            <TableBody emptyContent={<Spinner color={"warning"}>
+                အချက်အလက်များရယူနေသည်။
+                ကြာနေပါက Refresh ကိုနှိပ်ပါ
+                <br/>
+                <Link href={"/buildings"}>
+                    <Button className="bg-amber-500 text-white mt-10 animate-bounce" size={"md"} variant={"shadow"} type={"submit"}
+                            endContent={<ClockCircleLinearIcon/>}>
+                        Refresh
+                    </Button>
+                </Link>
+            </Spinner>} items={sortedItems}>
                 {(item) => (
                     <TableRow key={item.id}>
                         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

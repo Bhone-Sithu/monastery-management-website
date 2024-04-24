@@ -8,6 +8,9 @@ import {db} from "@/app/lib/firebase";
 import BuildingModel from "@/app/lib/BuildingModel";
 import {getDownloadURL, getStorage, ref} from "firebase/storage";
 import Image from "next/image";
+import {redirect} from "next/navigation";
+import Link from "next/link";
+import {ArrowLeftIcon, DeleteIcon} from "@nextui-org/shared-icons";
 
 export default function BuildingCreate({params}: { params: { buildingId: string } }) {
     const storage = getStorage();
@@ -19,6 +22,9 @@ export default function BuildingCreate({params}: { params: { buildingId: string 
     const id = params.buildingId;
 
     useEffect(() => {
+        if(localStorage.getItem("isLoggedIn")== undefined) {
+            redirect("/");
+        }
         const fetchBuilding = async () => {
             try{
                 const docRef = doc(db, "buildings", id);
@@ -73,12 +79,20 @@ export default function BuildingCreate({params}: { params: { buildingId: string 
                 </div>
                 <input type="hidden" value={id} name={"id"}/>
                 <input type="hidden" value={id_en} name={"id_en"}/>
-                <div className={"w-full"}>
-                    <Button className="bg-amber-500 text-white w-full mt-10" size={"lg"} variant={"shadow"}
+                <div className={"w-full flex gap-2 justify-center"}>
+                    <Button className="bg-amber-500 text-white  mt-10" size={"lg"} variant={"shadow"}
                             type={"submit"}
                             endContent={<PlusIcon/>}>
                         Update
                     </Button>
+                    <Link href={"/buildings/"+id}>
+                        <Button className="bg-red-400 text-white mt-10" size={"lg"} variant={"shadow"}
+                                type={"submit"}
+                                endContent={<ArrowLeftIcon/>}>
+
+                            Back
+                        </Button>
+                    </Link>
                 </div>
             </form>
             {/*<div className={"flex gap-5 w-full justify-center mt-20"}>*/}
