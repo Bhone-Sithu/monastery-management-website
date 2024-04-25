@@ -1,8 +1,8 @@
 'use server'
 import BuildingModel from "@/app/lib/BuildingModel";
-import {addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query, setDoc} from "@firebase/firestore";
-import {db} from "@/app/lib/firebase";
-import {deleteObject, getStorage, ref, uploadBytes} from "firebase/storage";
+import {addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, setDoc} from "@firebase/firestore";
+import {db} from "@/app/lib/firebase.mjs";
+import {deleteObject, getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {permanentRedirect, redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 const storage = getStorage();
@@ -12,6 +12,7 @@ const myanmarNumbers = require("myanmar-numbers");
 
 export async function createBuilding(formData: FormData) {
     let lastDocument : BuildingModel ;
+    let newId = 0;
     const q = query(
         collection(db, 'buildings'),
         orderBy('id_en', 'desc'),
@@ -20,9 +21,10 @@ export async function createBuilding(formData: FormData) {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
         lastDocument = doc.data() as BuildingModel;
+
+        newId = lastDocument.id_en+1;
     });
 
-    let newId = lastDocument.id_en+1;
     let myanmarId = myanmarNumbers(newId,"my");
     let newNumber = `အမှတ် - (${myanmarId})`;
     let returnId = "";
@@ -64,7 +66,7 @@ export async function createBuilding(formData: FormData) {
         return { message: 'Database Error: Failed to upload Map' };
     }
 
-    redirect(`../buildings/${returnId}`)
+    redirect(`../buildings`)
 }
 
 
@@ -86,15 +88,16 @@ export async function deleteBuilding(id:string,id_en:number) {
 
 export async function updateBuilding(formData:FormData) {
 
-    let id_en = formData.get("id_en");
-    let id = formData.get("id");
+    let id_en : any = formData.get("id_en");
+
+    let id = formData.get("id") + "";
     let myanmarId = myanmarNumbers(id_en,"my");
     let newNumber = `အမှတ် - (${myanmarId})`;
     // @ts-ignore
     const building: BuildingModel = {
         id:id,
-        donor: formData.get("donor"), name: formData.get("name"),
-        id_en: id_en,
+        donor: formData.get("donor") + "", name: formData.get("name") + "",
+        id_en: Number.parseInt(id_en),
         id_mm: myanmarId,
         number : newNumber
     }
@@ -139,3 +142,34 @@ export async function updateBuilding(formData:FormData) {
 
     redirect(`../../buildings/${id}`)
 }
+export const fetchBuildings = async () => {
+    try {
+        const buildingsCollectionRef = collection(db, "buildings");
+        const querySnapshot = await getDocs(query(buildingsCollectionRef,orderBy("id_en")));
+        const buildingsArr : any[] = []; //Firebase snapshot
+        querySnapshot.forEach((doc) => {
+            // Build your buildings array using document data and IDs
+            buildingsArr.push({ ...doc.data(), id: doc.id });
+        });
+        // Set your buildings state with all fetched buildings
+        return buildingsArr;
+    } catch (error) {
+        console.error("Error fetching buildings:", error);
+    }
+};
+export const fetchABuilding = async (id:string) => {
+    console.log("jhihihihihihih")
+    try {
+        const docRef = doc(db, "buildings", id);
+        const docSnap = await getDoc(docRef);
+
+        let aBuilding = docSnap.data();
+        let photo = await getDownloadURL(ref(storage, `photos/photo${aBuilding?.id_en}.jpeg`));
+        let map = await getDownloadURL(ref(storage, `maps/map${aBuilding?.id_en}.png`));
+        aBuilding = {...aBuilding,photo,map}
+        // Set your buildings state with all fetched buildings
+        return aBuilding;
+    } catch (error) {
+        console.error("Error fetching a building:", error);
+    }
+};

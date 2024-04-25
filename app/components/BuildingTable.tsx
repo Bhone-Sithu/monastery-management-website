@@ -23,7 +23,7 @@ import {SearchIcon} from "@/app/components/icons/SearchIcon";
 import {ChevronDownIcon} from "@/app/components/icons/ChevronDownIcon";
 import {PlusIcon} from "@/app/components/icons/PlusIcon";
 import {collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, where} from "@firebase/firestore";
-import {db} from "@/app/lib/firebase";
+import {db} from "@/app/lib/firebase.mjs";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     active: "success",

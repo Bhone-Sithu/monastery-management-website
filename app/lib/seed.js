@@ -1,4 +1,4 @@
-import {db} from './firebase.js'
+import {db} from './firebase.mjs'
 
 import fs from 'fs';
 import {collection, addDoc} from "@firebase/firestore";
