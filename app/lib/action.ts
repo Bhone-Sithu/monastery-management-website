@@ -139,7 +139,7 @@ export async function updateBuilding(formData:FormData) {
             return { message: 'Database Error: Failed to update Map' };
         }
     }
-
+    revalidatePath(`../../buildings/${id}`)
     redirect(`../../buildings/${id}`)
 }
 export const fetchBuildings = async () => {
