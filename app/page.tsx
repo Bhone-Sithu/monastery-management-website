@@ -24,8 +24,8 @@ export default function BuildingCreate() {
         }
     },[])
     return (
-        <div className="h-screen w-screen overflow-hidden">
-            <form action={logIn} className="bg-white w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
+        <div className=" overflow-hidden z-10">
+            <form action={logIn} className=" w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-2xl z-10 backdrop-blur-sm">
                 <h1 className={"text-center "}>Log In</h1>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>Email :</label>

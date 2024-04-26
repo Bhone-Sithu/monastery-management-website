@@ -192,7 +192,7 @@ export default function BuildingTable() {
 
     const topContent = React.useMemo(() => {
         return (
-            <div className="flex flex-col gap-4 max-h-full">
+            <div className="flex flex-col gap-4 max-h-full z-10">
                 <div className="flex justify-between gap-3 items-end">
                     <Input
                         isClearable
@@ -289,7 +289,7 @@ export default function BuildingTable() {
 
     const bottomContent = React.useMemo(() => {
         return (
-            <div className="py-2 px-2 flex justify-between items-center">
+            <div className="py-2 px-2 flex justify-between items-center z-10">
         <span className="w-[30%] text-small text-default-400">
           {/*{selectedKeys === "all"*/}
           {/*    ? "All items selected"*/}
@@ -324,8 +324,8 @@ export default function BuildingTable() {
             bottomContent={bottomContent}
             bottomContentPlacement="outside"
             classNames={{
-                wrapper: "max-h-full",
-                base : "max-h-full",
+                wrapper: "max-h-full z-10 backdrop-blur-md bg-transparent",
+                base : "max-h-full  bg-transparent",
             }}
             sortDescriptor={sortDescriptor}
             topContent={topContent}

@@ -26,7 +26,7 @@ export default async function BuildingDetail({params}: { params: { buildingId: s
     return (
 
         <div className={"h-full w-full rounded-lg "}>
-            <div className={"p-10 mx-60 mt-10 mb-20 bg-white rounded-xl  shadow-xl text-center "}>
+            <div className={"p-10 mx-60 mt-10 mb-20 backdrop-blur-sm rounded-xl  shadow-xl text-center "}>
 
                 <div className={"flex flex-col gap-5"}>
                     <h1 className={"text-2xl"}>{building?.name}</h1>
@@ -37,13 +37,13 @@ export default async function BuildingDetail({params}: { params: { buildingId: s
                     {building?.photo === "" ?
                         <></>
                         :
-                        <div className={"w-5/12"}><Image src={building?.photo} alt={"Building Image"} width={500}
+                        <div className={"w-5/12"}><Image src={building?.photo} alt={"Building Image"} width={500} className={" rounded-xl shadow-2xl"}
                                                          height={500}/></div>
 
                     }
                     {building?.map === "" ?
                         <></> :
-                        <div className={"w-5/12"}><Image src={building?.map} alt={"Building Map"} width={500} height={500}/>
+                        <div className={"w-5/12"}><Image src={building?.map} alt={"Building Map"} width={500} height={500} className={" rounded-xl shadow-2xl"}/>
                         </div>}
 
                 </div>

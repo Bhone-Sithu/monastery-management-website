@@ -13,7 +13,7 @@ export default function BuildingCreate() {
     },[])
     return (
         <div className="h-screen w-screen overflow-hidden">
-            <form action={createBuilding} className="bg-white w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
+            <form action={createBuilding} className="backdrop-blur-sm w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
                 <h1 className={"text-center "}>အဆောင်အသစ်ထည့်ရန် Form</h1>
                 <div className="mt-10 flex gap-5 w-full items-center">
                     <label className={"w-3/12"}>အဆောင်အမည် :</label>

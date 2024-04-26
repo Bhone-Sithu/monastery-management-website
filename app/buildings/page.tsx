@@ -10,7 +10,7 @@ export default function Home() {
         }
     },[])
   return (
-    <div className="w-9/12 h-full mx-auto py-10">
+    <div className="w-9/12 h-full mx-auto py-10 z-10">
       <BuildingTable/>
 
     </div>
