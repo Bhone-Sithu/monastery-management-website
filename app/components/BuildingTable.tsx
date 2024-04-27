@@ -193,7 +193,7 @@ export default function BuildingTable() {
     const topContent = React.useMemo(() => {
         return (
             <div className="flex flex-col gap-4 max-h-full z-10">
-                <div className="flex justify-between gap-3 items-end">
+                <div className="flex flex-col-reverse lg:flex-row  justify-between gap-3 items-end">
                     <Input
                         isClearable
                         className="w-full sm:max-w-[44%]"
@@ -203,7 +203,7 @@ export default function BuildingTable() {
                         onClear={() => onClear()}
                         onValueChange={onSearchChange}
                     />
-                    <div className="flex gap-3">
+                    <div className="flex flex-col-reverse lg:flex-row  gap-3 items-end">
                         {/*<Dropdown>*/}
                         {/*    <DropdownTrigger className="hidden sm:flex">*/}
                         {/*        <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">*/}
@@ -247,9 +247,9 @@ export default function BuildingTable() {
                         {/*    </DropdownMenu>*/}
                         {/*</Dropdown>*/}
 
-                        <Link href={"buildings/create"} target={"_blank"}>
+                        <Link href={"buildings/create"} target={"_blank"} className={""}>
 
-                            <Button className="bg-amber-500 text-white" variant={"shadow"} size={"md"} endContent={<PlusIcon />}>
+                            <Button className="bg-amber-500 text-white w-full" variant={"shadow"} size={"md"} endContent={<PlusIcon />}>
                                 အဆောင်အသစ်ထည့်မည်
                             </Button>
                         </Link>
@@ -289,12 +289,8 @@ export default function BuildingTable() {
 
     const bottomContent = React.useMemo(() => {
         return (
-            <div className="py-2 px-2 flex justify-between items-center z-10">
-        <span className="w-[30%] text-small text-default-400">
-          {/*{selectedKeys === "all"*/}
-          {/*    ? "All items selected"*/}
-          {/*    : `${selectedKeys.size} of ${filteredItems.length} selected`}*/}
-        </span>
+            <div className="py-2 px-2 flex flex-col lg:flex-row justify-between items-center z-10">
+
                 <Pagination
 
                     isCompact

@@ -21,29 +21,28 @@ export async  function generateStaticParams() {
 export default async function BuildingDetail({params}: { params: { buildingId: string } }) {
     const {buildingId} = params;
     const building = await fetchABuilding(buildingId);
-    console.log(building)
 
     return (
 
         <div className={"h-full w-full rounded-lg "}>
-            <div className={"p-10 mx-60 mt-10 mb-20 backdrop-blur-sm rounded-xl  shadow-xl text-center "}>
+            <div className={"p-10 mx-auto mt-10 mb-20 backdrop-blur-sm rounded-xl w-10/12 lg:w-8/12  shadow-xl text-center "}>
 
                 <div className={"flex flex-col gap-5"}>
                     <h1 className={"text-2xl"}>{building?.name}</h1>
                     <h2 className={"opacity-50"}>{building?.number}</h2>
                     <p>{building?.donor}</p>
                 </div>
-                <div className={"flex gap-5 w-full justify-center mt-20"}>
+                <div className={"flex flex-col md:flex-row gap-5 w-full justify-center mt-20"}>
                     {building?.photo === "" ?
                         <></>
                         :
-                        <div className={"w-5/12"}><Image src={building?.photo} alt={"Building Image"} width={500} className={" rounded-xl shadow-2xl"}
+                        <div className={"w-full md:w-5/12"}><Image src={building?.photo} alt={"Building Image"} width={500} className={"rounded-xl shadow-2xl"}
                                                          height={500}/></div>
 
                     }
                     {building?.map === "" ?
                         <></> :
-                        <div className={"w-5/12"}><Image src={building?.map} alt={"Building Map"} width={500} height={500} className={" rounded-xl shadow-2xl"}/>
+                        <div className={"w-full md:w-5/12"}><Image src={building?.map} alt={"Building Map"} width={500} height={500} className={" rounded-xl shadow-2xl"}/>
                         </div>}
 
                 </div>
@@ -59,9 +58,9 @@ export default async function BuildingDetail({params}: { params: { buildingId: s
                             </Button>
                         </Link>
                     </Spinner>
-                    : <div className={"flex gap-5 w-full justify-center mt-10"}>
+                    : <div className={"flex flex-col md:flex-row gap-5 w-full justify-center mt-10"}>
                         <Link href={`${buildingId}/update`}>
-                            <Button className="bg-amber-500 text-white" size={"lg"} variant={"shadow"}
+                            <Button className="bg-amber-500 text-white w-full" size={"lg"} variant={"shadow"}
                                     endContent={<VerticalDotsIcon/>}>
                                 ပြင်ဆင်မည်
                             </Button>

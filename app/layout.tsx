@@ -51,14 +51,14 @@ export default function RootLayout({
     <Image
         src="/images/bodhiTree.png"
         alt="tree"
-        width={100}
+        width={400}
         height={100}
-        className="absolute w-full h-screen z-10 opacity-50 bottom-0"
+        className="absolute w-full object-cover lg:object-fill h-screen z-10 opacity-50 bottom-0"
     />
 
     {/*<div className={"absolute w-screen h-screen z-0 bg-sky-300 top-0 left-0 opacity-70"}> a</div>*/}
 
-    <div className={"absolute w-screen h-screen z-0 bg-emerald-300 top-0 left-0 opacity-30"}> a</div>
+    <div className={"absolute w-screen h-screen z-0 bg-emerald-300 top-0 left-0 opacity-30"}></div>
     </body>
     </html>
   );

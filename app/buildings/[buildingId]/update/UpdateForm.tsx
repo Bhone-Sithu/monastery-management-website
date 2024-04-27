@@ -54,43 +54,43 @@ export default function UpdateForm({buildingId}:{buildingId:string}){
         fetchBuilding();
     }, [])
     return (
-        <div className="h-screen w-screen overflow-hidden">
-            <form action={updateBuilding} className="backdrop-blur-sm w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
+        <div className="h-full w-full">
+            <form action={updateBuilding} className="backdrop-blur-sm w-10/12 md:w-8/12 lg:w-5/12 mx-auto py-10 px-10 rounded-xl shadow-xl my-10">
                 {name===""?<Spinner color={"warning"} className={"mx-auto w-full"}>
                     အချက်အလက်များရယူနေသည်။
                     <br/>
                 </Spinner>:<>
-                    <h1 className={"text-center "}>အဆောင်အသစ်ထည့်ရန် Form</h1>
-                    <div className="mt-10 flex gap-5 w-full items-center">
-                        <label className={"w-3/12"}>အဆောင်အမည် :</label>
+                    <h1 className={"text-center text-xl text-amber-500 drop-shadow-2xl font-bold"}>အချက်အလက်ပြင်ဆင်ရန် Form</h1>
+                    <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                        <label className={"w-full md:w-3/12"}>အဆောင်အမည် :</label>
                         <input type={"text"} value={name} name={"name"} onChange={(event) => setName(event.target.value)}
                                className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
                     </div>
-                    <div className="mt-10 flex gap-5 w-full items-center">
-                        <label className={"w-3/12"}>အလှူရှင် :</label>
-                        <textarea value={donor} onChange={(event) => setDonor(event.target.value)} name={"donor"}
+                    <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                        <label className={"w-full md:w-3/12"}>အလှူရှင် :</label>
+                        <textarea rows={5}  value={donor} onChange={(event) => setDonor(event.target.value)} name={"donor"}
                                   className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
                     </div>
-                    <div className="mt-10 flex gap-5 w-full items-center">
-                        <label className={"w-3/12"}>အဆောင်ဓာတ်ပုံ : </label>
+                    <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                        <label className={"w-full md:w-3/12"}>အဆောင်ဓာတ်ပုံ : </label>
                         <input type={"file"} name={"photo"} className={"border-1 border-gray-300 rounded-md w-full p-2"}
                         />
                     </div>
-                    <div className="mt-10 flex gap-5 w-full items-center">
-                        <label className={"w-3/12"}>မြေပုံ : </label>
+                    <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                        <label className={"w-full md:w-3/12"}>မြေပုံ : </label>
                         <input type={"file"} name={"map"} className={"border-1 border-gray-300 rounded-md w-full p-2"}
                         />
                     </div>
                     <input type="hidden" value={id} name={"id"}/>
                     <input type="hidden" value={id_en} name={"id_en"}/>
-                    <div className={"w-full flex gap-2 justify-center"}>
+                    <div className={"w-full flex flex-col md:flex-row gap-2 justify-center"}>
                         <Button className="bg-amber-500 text-white  mt-10" size={"lg"} variant={"shadow"}
                                 type={"submit"}
                                 endContent={<PlusIcon/>}>
                             Update
                         </Button>
                         <Link href={"/buildings/"+id}>
-                            <Button className="bg-red-400 text-white mt-10" size={"lg"} variant={"shadow"}
+                            <Button className="bg-red-400 text-white mt-3 w-full" size={"lg"} variant={"shadow"}
                                     type={"submit"}
                                     endContent={<ArrowLeftIcon/>}>
 

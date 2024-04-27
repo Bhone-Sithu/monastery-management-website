@@ -12,23 +12,23 @@ export default function BuildingCreate() {
         }
     },[])
     return (
-        <div className="h-screen w-screen overflow-hidden">
-            <form action={createBuilding} className="backdrop-blur-sm w-5/12 mx-auto py-10 px-16 mt-10 rounded-xl shadow-xl">
-                <h1 className={"text-center "}>အဆောင်အသစ်ထည့်ရန် Form</h1>
-                <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>အဆောင်အမည် :</label>
+        <div className="h-full w-full">
+            <form action={createBuilding} className="backdrop-blur-sm w-10/12 md:w-6/12 lg:w-5/12 mx-auto py-10 px-10 my-10 rounded-xl shadow-xl">
+                <h1 className={"text-center text-xl text-amber-500 drop-shadow-2xl font-bold"}>အဆောင်အသစ်ထည့်ရန် Form</h1>
+                <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                    <label className={"w-full md:w-3/12"}>အဆောင်အမည် :</label>
                     <input type={"text"} name={"name"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
                 </div>
-                <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>အလှူရှင် :</label>
-                    <textarea name={"donor"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
+                <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                    <label className={"w-full md:w-3/12"}>အလှူရှင် :</label>
+                    <textarea rows={4} name={"donor"} className={"border-1 border-gray-300 rounded-md w-full p-2"}/>
                 </div>
-                <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>အဆောင်ဓာတ်ပုံ :</label>
+                <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                    <label className={"w-full md:w-3/12"}>အဆောင်ဓာတ်ပုံ :</label>
                     <input type={"file"} name={"photo"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
                 </div>
-                <div className="mt-10 flex gap-5 w-full items-center">
-                    <label className={"w-3/12"}>မြေပုံ :</label>
+                <div className="mt-10 flex flex-col md:flex-row gap-5 w-full items-center">
+                    <label className={"w-full md:w-3/12"}>မြေပုံ :</label>
                     <input type={"file"} name={"map"} className={"border-1 border-gray-300 rounded-md w-full p-2"} required/>
                 </div>
                 <div className={"w-full"}>
